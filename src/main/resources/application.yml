@@ -1,0 +1,21 @@
+server:
+  port: 9080
+
+spring:
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: hacker_news
+
+
+hacker:
+  news:
+    host:  "hacker-news.firebaseio.com"
+    port: 443
+    scheme: "https"
+    paths:
+      stories: "/v0/topstories.json"
+      story: "/v0/item/%d.json"
+      user: "/v0/user/%s.json"
+    query: "print=pretty"
