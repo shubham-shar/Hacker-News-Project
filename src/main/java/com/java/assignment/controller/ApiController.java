@@ -1,6 +1,5 @@
 package com.java.assignment.controller;
 
-import com.java.assignment.model.Comment;
 import com.java.assignment.service.CommentService;
 import com.java.assignment.service.PastStoryService;
 import com.java.assignment.service.StoryService;
@@ -26,7 +25,7 @@ public class ApiController {
     @Autowired
     PastStoryService pastStoryService;
 
-    @GetMapping("/top-stories")
+    @GetMapping({ "/", "/top-stories" })
     public String getTopStories(Model model){
         model = storyService.fetchTopStories(model);
         return "top-stories";

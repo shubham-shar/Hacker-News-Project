@@ -1,4 +1,4 @@
-package com.java.assignment.Utils;
+package com.java.assignment.utils;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;

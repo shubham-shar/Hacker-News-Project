@@ -2,15 +2,12 @@ package com.java.assignment.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.java.assignment.model.constants.HNType;
-import com.sun.javafx.beans.IDProperty;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.lang.annotation.Documented;
 import java.util.List;
 
 /**
