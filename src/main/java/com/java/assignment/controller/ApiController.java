@@ -33,7 +33,6 @@ public class ApiController {
 
     @GetMapping("/comments/{id}")
     public String getTopComments(@PathVariable("id") Long storyId, Model model){
-        //23273247
         model = commentService.getCommentData(storyId, model);
         return "top-comments";
     }

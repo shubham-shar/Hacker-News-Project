@@ -6,7 +6,7 @@ Below are the three endpoints
   where id is the 'id of a story'
 - `/past-stories`
 
-*NOTE* - Click on the stories for more info<br>
+*NOTE* - While on website, Click on the each stories for more info about it.<br>
 
 Reference - [Hacker News](https://github.com/HackerNews/API)
 
@@ -24,6 +24,11 @@ Clone the github Repo and import in intellij (or your choice of IDE)
   You can use [sdman](https://sdkman.io/install) and choose 8.0.252-zulu as java<br>
   `sdk install java 8.0.252-zulu`
 - Install mongoDb [link](https://www.digitalocean.com/community/tutorials/how-to-install-mongodb-on-ubuntu-18-04)
+
+##### NOTE:
+Application fetches HackerNews data on each Startup and persists in Mongo. Application won't start if anything goes wrong
+while fetching or persisting HackerNews data.<br>
+This data is then used in redering UI without causing delays to user.
 
 ## Deployment on Docker
 Please make sure Docker is installed on your system<br>
