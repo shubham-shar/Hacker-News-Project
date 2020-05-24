@@ -8,8 +8,10 @@ import com.java.assignment.repository.HackerNewsRepository;
 import com.java.assignment.repository.PastStoryRepository;
 import com.java.assignment.utils.ObjectMapperUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
@@ -33,7 +35,7 @@ public class HNSetupService {
     @Autowired
     PastStoryRepository pastStoryRepository;
 
-//    @Scheduled(fixedRate = TEN_MINUTES, initialDelay = TEN_MINUTES)
+    @Scheduled(fixedRate = TEN_MINUTES, initialDelay = TEN_MINUTES)
     public void persistTopStories() {
 
         List<Long> storiesList = apiService.fetchTop500Stories();
@@ -57,8 +59,8 @@ public class HNSetupService {
         }
     }
 
-//    @PostConstruct
-//    public void init(){
-//        persistTopStories();
-//    }
+    @PostConstruct
+    public void init(){
+        persistTopStories();
+    }
 }

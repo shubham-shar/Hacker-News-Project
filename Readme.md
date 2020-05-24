@@ -1,5 +1,14 @@
 # Project Title
-A simple website built with Spring boot showing top stories of the day using Hacker-News api.
+A simple website built with Spring boot showing top stories of the day using Hacker-News api.<br>
+Below are the three endpoints
+- `/top-stories`
+- `/comments/{id}`<br>
+  where id is the 'id of a story'
+- `/past-stories`
+
+*NOTE* - Click on the stories for more info<br>
+
+Reference - [Hacker News](https://github.com/HackerNews/API)
 
 ## Getting Started
 Clone the github Repo and import in intellij (or your choice of IDE)
@@ -17,8 +26,8 @@ Clone the github Repo and import in intellij (or your choice of IDE)
 - Install mongoDb [link](https://www.digitalocean.com/community/tutorials/how-to-install-mongodb-on-ubuntu-18-04)
 
 ## Deployment on Docker
-Please make sure Docker is installed on your system
-Below are the commands to get the app up on local
+Please make sure Docker is installed on your system<br>
+Below are the commands to get the app up on local docker container
 - `./gradlew clean build`
 - `docker build -t hacker-news/docker .`
 - `docker run --network host -p 9080:9080 hacker-news/docker`
@@ -30,8 +39,10 @@ Below are the commands to get the app up on local
 * [Gradle](https://gradle.org/) - Dependency Management
 
 ## Authors
-
 * **Shubham Sharma** - *Owner* - [Github](https://github.com/shubham-shar)
+
+## Pending Improvements
+- `/comments/{id}` takes a lot of time to render. Thinking of caching.
 
 ## Acknowledgments
 - [Spring Guides](https://spring.io/guides/gs/spring-boot-docker/)
