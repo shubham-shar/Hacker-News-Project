@@ -20,8 +20,8 @@ Clone the github Repo and import in intellij (or your choice of IDE)
 - Intellij (or your choice of IDE)
 
 ### Installing
-- Install java 8
-  You can use [sdman](https://sdkman.io/install) and choose 8.0.252-zulu as java
+- Install java 8<br>
+  You can use [sdman](https://sdkman.io/install) and choose 8.0.252-zulu as java<br>
   `sdk install java 8.0.252-zulu`
 - Install mongoDb [link](https://www.digitalocean.com/community/tutorials/how-to-install-mongodb-on-ubuntu-18-04)
 
