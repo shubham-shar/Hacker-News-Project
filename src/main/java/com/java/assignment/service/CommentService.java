@@ -1,19 +1,23 @@
 package com.java.assignment.service;
 
+import com.java.assignment.model.CachedComments;
 import com.java.assignment.model.Comment;
 import com.java.assignment.model.CommentData;
 import com.java.assignment.model.Story;
 import com.java.assignment.model.User;
+import com.java.assignment.repository.CachedCommentsRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -27,31 +31,54 @@ public class CommentService {
     @Autowired
     ApiService apiService;
 
+    @Autowired
+    CachedCommentsRepository cachedCommentsRepository;
+
     public Model getCommentData(Long storyId, Model model){
-        Story story = apiService.fetchStory(storyId);
-        List<Comment> comments = story.getComments().stream()
-                                    .map(apiService::fetchComment)
-                                    .filter(comment -> Objects.nonNull(comment.getSubComments()))
-                                    .sorted(Comparator.comparingInt(comment -> comment.getSubComments().size()))
-                                    .collect(Collectors.toList());
-        Collections.reverse(comments);
-        List<Comment> topComments = comments.stream().limit(10).collect(Collectors.toList());
-        List<CommentData> commentDataList = topComments.stream()
-                .map(comment -> {
-                    User user = apiService.fetchUser(comment.getUsername());
-                    return buildCommentData(user, comment);
-                }).collect(Collectors.toList());
+
+        List<CommentData> commentDataList = new ArrayList<>();
+        Optional<CachedComments> cachedComment = cachedCommentsRepository.findById(storyId.toString());
+
+        if(cachedComment.isPresent()){
+            commentDataList.addAll(cachedComment.get().getTopComments());
+        } else {
+            Story story = apiService.fetchStory(storyId);
+            List<Comment> topComments = getTopComments(story);
+            commentDataList = topComments.stream()
+                    .map(comment -> {
+                        User user = apiService.fetchUser(comment.getUsername());
+                        return buildCommentData(user, comment);
+                    }).collect(Collectors.toList());
+        }
+
         model.addAttribute("comments", commentDataList);
         return model;
     }
 
-    private CommentData buildCommentData(User user, Comment comment) {
-        return CommentData.builder()
-                .id(comment.getId())
-                .age(getAge(user.getCreatedAt()))
-                .text(comment.getText())
-                .username(user.getUsername())
-                .build();
+    public List<Comment> getTopComments(Story story) {
+        if(Objects.nonNull(story.getComments())) {
+            List<Comment> comments = story.getComments().stream()
+                    .map(apiService::fetchComment)
+                    .sorted(Comparator.comparingInt(comment -> comment.getSubComments().size()))
+                    .collect(Collectors.toList());
+            Collections.reverse(comments);
+            return comments.stream().limit(10).collect(Collectors.toList());
+        } else{
+            return Collections.emptyList();
+        }
+    }
+
+    public CommentData buildCommentData(User user, Comment comment) {
+        CommentData commentData = CommentData.builder()
+                                    .id(comment.getId())
+                                    .text(comment.getText())
+                                    .build();
+        if(Objects.nonNull(user)){
+            commentData.setAge(getAge(user.getCreatedAt()));
+            commentData.setUsername(user.getUsername());
+        }
+        return commentData;
+
     }
 
     private int getAge(Long createdAt) {

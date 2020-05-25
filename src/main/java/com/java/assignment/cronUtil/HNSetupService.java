@@ -1,4 +1,4 @@
-package com.java.assignment.service;
+package com.java.assignment.cronUtil;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.java.assignment.model.PastStory;
@@ -6,7 +6,9 @@ import com.java.assignment.model.Story;
 import com.java.assignment.model.constants.HNType;
 import com.java.assignment.repository.HackerNewsRepository;
 import com.java.assignment.repository.PastStoryRepository;
+import com.java.assignment.service.ApiService;
 import com.java.assignment.utils.ObjectMapperUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -21,6 +23,7 @@ import java.util.stream.Collectors;
  * @author Shubham Sharma
  * @date 23/5/20
  */
+@Slf4j
 @Service
 public class HNSetupService {
 
@@ -37,7 +40,7 @@ public class HNSetupService {
 
     @Scheduled(fixedRate = TEN_MINUTES, initialDelay = TEN_MINUTES)
     public void persistTopStories() {
-
+        log.info("Starting persisting top stories");
         List<Long> storiesList = apiService.fetchTop500Stories();
 
         List<Story> lastestStories = storiesList.stream()
@@ -57,6 +60,7 @@ public class HNSetupService {
             hackerNewsRepository.deleteAll();
             hackerNewsRepository.saveAll(lastestStories);
         }
+        log.info("Persisted top stories");
     }
 
     @PostConstruct

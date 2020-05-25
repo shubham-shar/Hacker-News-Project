@@ -5,7 +5,7 @@ spring:
   data:
     mongodb:
       uri: mongodb://localhost:27017
-      database: hacker_news
+      database: hackerNews
 
 
 hacker:
@@ -17,4 +17,6 @@ hacker:
       stories: "/v0/topstories.json"
       story: "/v0/item/%d.json"
       user: "/v0/user/%s.json"
+      newstories: "/v0/newstories.json"
+      updates: "/v0/updates.json"
     query: "print=pretty"

@@ -28,6 +28,7 @@ Clone the github Repo and import in intellij (or your choice of IDE)
 ##### NOTE:
 Application fetches HackerNews data on each Startup and persists in Mongo. Application won't start if anything goes wrong
 while fetching or persisting HackerNews data.<br>
+There are two classes which fetch stories on regular basis to cache comments to render `/comments/{id}` relatively faster.
 This data is then used in redering UI without causing delays to user.
 
 ## Deployment on Docker
@@ -47,7 +48,9 @@ Below are the commands to get the app up on local docker container
 * **Shubham Sharma** - *Owner* - [Github](https://github.com/shubham-shar)
 
 ## Pending Improvements
-- `/comments/{id}` takes a lot of time to render. Thinking of caching.
+- `/comments/{id}` takes a lot of time to render.
+Application runs a cron to fetch stories and cache them for faster response, although not all stories are cached<br>
+and comments may take longer time to render for those comments.
 
 ## Acknowledgments
 - [Spring Guides](https://spring.io/guides/gs/spring-boot-docker/)

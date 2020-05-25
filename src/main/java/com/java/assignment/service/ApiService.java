@@ -19,6 +19,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @author Shubham Sharma
@@ -98,7 +99,12 @@ public class ApiService {
             ResponseEntity<String> hnResponse = restTemplate.getForEntity(storiesUrl, String.class);
 
             log.info("Fetched the Comment {} with status: {}", id, hnResponse.getStatusCode());
-            return ObjectMapperUtil.getInstance().getObjectMapper().readValue(hnResponse.getBody(), Comment.class);
+            Comment comment = ObjectMapperUtil.getInstance()
+                                    .getObjectMapper().readValue(hnResponse.getBody(), Comment.class);
+            if(Objects.isNull(comment.getSubComments())){
+                comment.setSubComments(Collections.emptyList());
+            }
+            return comment;
 
         } catch (URISyntaxException e) {
             log.error("Error in building comment api for {}", id, e);
